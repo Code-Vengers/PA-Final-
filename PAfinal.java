@@ -32,6 +32,8 @@ public class PAfinal extends JPanel{
     content.add(infoTA,BorderLayout.LINE_END);
 
     JPanel inputForm = new JPanel();
+    JCheckBox male = new JCheckBox("Male");
+    JCheckBox female = new JCheckBox("Female");
 		JTextField ounces = new JTextField(" ");
 		JTextField percent = new JTextField(" ");
     JTextField hours = new JTextField(" ");
@@ -46,6 +48,8 @@ public class PAfinal extends JPanel{
     JButton music = new JButton("Play");
 		JLabel bloodAlc = new JLabel(" ");
     inputForm.setLayout(new GridLayout(0,2));
+    inputForm.add(male);
+    inputForm.add(female);
 		inputForm.add(new JLabel("Ounces:"));inputForm.add(ounces);
 		inputForm.add(new JLabel("Percent:")); inputForm.add(percent);
     inputForm.add(new JLabel("Hours")); inputForm.add(hours);
@@ -61,14 +65,21 @@ public class PAfinal extends JPanel{
 		      double ozAlc = Double.parseDouble(ounces.getText());
           double percAlc = Double.parseDouble(percent.getText());
 		      double time = Double.parseDouble(hours.getText());
-          double r = 0.695; // average between constant of males (.73) and females(.66)
+          double r;
+          if  (male.isSelected()){
+            r = 0.73;
+          }
+          else {
+            r = 0.66;
+          }
+          //double r = 0.695; // average between constant of males (.73) and females(.66)
           double w = value;
           double BACalc = ozAlc*5.14/w*r-.015*time;
           bloodAlc.setText(" " + BACalc);
 
-
     }
   });
+
 
 
 		clear.addActionListener(new ActionListener(){
@@ -107,7 +118,7 @@ public class PAfinal extends JPanel{
       frame.pack();
       frame.setSize(500,500);
       frame.setLocation(100,100);
-      
+
   }
 /**
 * @param no parameters
