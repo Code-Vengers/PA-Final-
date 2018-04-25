@@ -34,9 +34,15 @@ public class PAfinal extends JPanel{
     JButton save = new JButton("Save");
     top.add(infoTA);
     top.add(save);
+    String[] favChoices = new String[] {};
+    JComboBox<String> favList = new JComboBox<>(favChoices);
+     // add to the parent container (a JFrame):
+     add(favList);
+     // get the selected item:
+    String selectedFav = (String) favList.getSelectedItem();
     content.add(top, BorderLayout.LINE_END);
-  //  content.add(save,BorderLayout.LINE_END);
-  //  content.add(infoTA,BorderLayout.LINE_END);
+    // content.add(save,BorderLayout.LINE_END);
+    // content.add(infoTA,BorderLayout.LINE_END);
 
     JPanel inputForm = new JPanel();
     JCheckBox male = new JCheckBox("Male");
