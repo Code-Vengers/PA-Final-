@@ -15,81 +15,72 @@ body weight, and percent alcohol in the drink
 Uses a widget for sound and another widget being the slider
 **/
 
-public class PAfinal extends JPanel{
+public class Pa05 extends JPanel{
   private double time = 0;
   private double ozAlc = 0;
   private double percAlc = 0;
 
-  public PAfinal(){
+  public Pa05(){
     JPanel content = this;
     content.setLayout(new BorderLayout());
 
+
+    // Making the header
     JPanel headerPanel = new JPanel();
     headerPanel.add(new JLabel("<html><h1> Blood Alcohol Calculator </h1></html"));
     content.add(headerPanel,BorderLayout.PAGE_START);
 
-    JPanel top = new JPanel();
-    top.setLayout(new GridLayout(0,2));
-    JTextArea infoTA = new JTextArea("Add Favorite Drinks Here ");
-    JButton save = new JButton("Save");
-    top.add(infoTA);
-    top.add(save);
-    content.add(top, BorderLayout.LINE_END);
-  //  content.add(save,BorderLayout.LINE_END);
-  //  content.add(infoTA,BorderLayout.LINE_END);
+    JTextArea logTA = new JTextArea(
+       "Drink Log\n"
+       );
+    JTextArea infoTA = new JTextArea(
+     "Add History of Drinks Here"
+    );
+    content.add(infoTA,BorderLayout.LINE_END);
 
     JPanel inputForm = new JPanel();
-    JCheckBox male = new JCheckBox("Male");
-    JCheckBox female = new JCheckBox("Female");
 		JTextField ounces = new JTextField(" ");
 		JTextField percent = new JTextField(" ");
     JTextField hours = new JTextField(" ");
-    JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 400, 200);
-    slider.setMajorTickSpacing(100);
-    slider.setMinorTickSpacing(50);
-    slider.setPaintTicks(true);
-    slider.setPaintLabels(true);
-
-		JButton go = new JButton("Calculate Blood Alcohol Level");
-		JButton clear = new JButton("Reset");
+    JTextField weight = new JTextField(" ");
+		JButton go = new JButton("calculate Blood Alcohol Level");
+		JButton clear = new JButton("reset");
     JButton music = new JButton("Play");
 		JLabel bloodAlc = new JLabel(" ");
-    inputForm.setLayout(new GridLayout(0,2));
-    inputForm.add(male);
-    inputForm.add(female);
-		inputForm.add(new JLabel("Ounces:"));inputForm.add(ounces);
-		inputForm.add(new JLabel("Percent:")); inputForm.add(percent);
-    inputForm.add(new JLabel("Hours:")); inputForm.add(hours);
-    inputForm.add(new JLabel("Weight:")); inputForm.add(slider);
-		inputForm.add(clear);inputForm.add(go);
-    inputForm.add(music);inputForm.add(new JLabel("Rough Estimation of BAC:"));
-    inputForm.add(bloodAlc);
+    inputForm.setLayout(new GridLayout(3,2));
+		inputForm.add(new JLabel("ounces:"));inputForm.add(ounces);
+		inputForm.add(new JLabel("percent:")); inputForm.add(percent);
+    inputForm.add(new JLabel("hours")); inputForm.add(hours);
+    inputForm.add(new JLabel("weight")); inputForm.add(weight);
+		inputForm.add(clear);inputForm.add(go);inputForm.add(music);
+		inputForm.add(new JLabel("Rough Estimation of BAC:"));inputForm.add(bloodAlc);
     content.add(inputForm,BorderLayout.PAGE_END);
+
+    JPanel panel1 = new JPanel();
+    JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 400, 100);
+    slider.setMajorTickSpacing(10);
+    slider.setMinorTickSpacing(1);
+    slider.setPaintTicks(true);
+    slider.setPaintLabels(true);
+    panel1.add(slider);
+    content.add(panel1, BorderLayout.LINE_START);
 
     go.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e){
           double value = slider.getValue();
+          String s1 = value+"";
+          weight.setText(s1);
 		      double ozAlc = Double.parseDouble(ounces.getText());
           double percAlc = Double.parseDouble(percent.getText());
 		      double time = Double.parseDouble(hours.getText());
-          double r;
-          if  (male.isSelected()){
-            r = 0.73;
-          }
-          else {
-            r = 0.66;
-          }
-          //double r = 0.695; // average between constant of males (.73) and females(.66)
+          double r = 0.695; // average between constant of males (.73) and females(.66)
           double w = value;
           double BACalc = ozAlc*5.14/w*r-.015*time;
-          if(BACalc > 0.100){
-            bloodAlc.setText("Probably should slow down/stop BAC is:  " + BACalc);
-          } else if(BACalc < 0.100){
-          bloodAlc.setText("Have a good time! Responsibly! " + BACalc);
-         }
+          bloodAlc.setText(" " + BACalc);
+
+
     }
   });
-
 
 
 		clear.addActionListener(new ActionListener(){
@@ -114,21 +105,17 @@ public class PAfinal extends JPanel{
 
   private static void createAndShowGUI(){
       //Create and set up the window.
-      JFrame frame = new JFrame("PAfinal");
+      JFrame frame = new JFrame("Pa05");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
       //Create and set up the content pane.
-      JComponent newContentPane = new PAfinal();
+      JComponent newContentPane = new Pa05();
       newContentPane.setOpaque(true); //content panes must be opaque
       frame.setContentPane(newContentPane);
 
       //Display the window.
       frame.pack();
       frame.setVisible(true);
-      frame.pack();
-      frame.setSize(500,500);
-      frame.setLocation(100,100);
-
   }
 /**
 * @param no parameters
