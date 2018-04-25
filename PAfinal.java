@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.io.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
+import java.util.*;
 // author: Elon Mathieson emath@brandeis.edu
 
 
@@ -20,24 +21,33 @@ public class PAfinal extends JPanel{
   private double ozAlc = 0;
   private double percAlc = 0;
 
+
+
   public PAfinal(){
+    HashMap<String,String> drinks = new HashMap<>();
+
     JPanel content = this;
-    content.setLayout(new BorderLayout());
+    content.setLayout(new BorderLayout(5,5));
 
     JPanel headerPanel = new JPanel();
     headerPanel.add(new JLabel("<html><h1> Blood Alcohol Calculator </h1></html"));
     content.add(headerPanel,BorderLayout.PAGE_START);
 
     JPanel top = new JPanel();
-    top.setLayout(new GridLayout(0,2));
-    JTextArea infoTA = new JTextArea("Add Favorite Drinks Here ");
+    top.setLayout(new GridLayout(0,4));
+    JTextArea drinkName = new JTextArea("Add Drink Name Here:");
+    JTextArea drinkPerc = new JTextArea("Add Drink's Alcohol Percent Here:");
     JButton save = new JButton("Save");
-    top.add(infoTA);
+    top.add(drinkName);
+    top.add(drinkPerc);
     top.add(save);
-    String[] favChoices = new String[] {};
-    JComboBox<String> favList = new JComboBox<>(favChoices);
+    ArrayList<String> favChoices = new ArrayList<String>();
+    //String[] favChoices = new String[] {};
+    String[] array = favChoices.toArray(new String[favChoices.size()]);
+
+    JComboBox<String> favList = new JComboBox(array);
      // add to the parent container (a JFrame):
-     add(favList);
+    top.add(favList);
      // get the selected item:
     String selectedFav = (String) favList.getSelectedItem();
     content.add(top, BorderLayout.LINE_END);
@@ -96,7 +106,22 @@ public class PAfinal extends JPanel{
     }
   });
 
+  save.addActionListener(new ActionListener(){
+    public void actionPerformed(ActionEvent e){
 
+      String drink = drinkName.getText();
+      String perc = drinkPerc.getText();
+      drinks.put(drink,perc);
+      System.out.println("Saved");
+
+      favChoices.add(drink);
+      favList.addItem(favChoices.get(favChoices.size() - 1));
+      System.out.println(favChoices.toString());
+      drinkName.setText("Name");
+      drinkPerc.setText("Alc Content");
+
+    }
+  });
 
 		clear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -132,7 +157,7 @@ public class PAfinal extends JPanel{
       frame.pack();
       frame.setVisible(true);
       frame.pack();
-      frame.setSize(500,500);
+      frame.setSize(800,500);
       frame.setLocation(100,100);
 
   }
