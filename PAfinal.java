@@ -111,7 +111,7 @@ public class PAfinal extends JPanel{
           }
           //double r = 0.695; // average between constant of males (.73) and females(.66)
           double w = value;
-          double BACalc = ozAlc*5.14/w*r-.015*time;
+          double BACalc = ((ozAlc *(percAlc/100))*5.14/(w*r))-.015*time;
           if(BACalc > 0.100){
             bloodAlc.setText("Probably should slow down/stop BAC is:  " + BACalc);
           } else if(BACalc < 0.100){
@@ -162,6 +162,8 @@ public class PAfinal extends JPanel{
 				percent.setText("");
         hours.setText("");
 				bloodAlc.setText(" ");
+        drinkName.setText("");
+        drinkPerc.setText("");
 			}
 		});
 
