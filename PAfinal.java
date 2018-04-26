@@ -129,6 +129,8 @@ public class PAfinal extends JPanel{
 				percent.setText("");
         hours.setText("");
 				bloodAlc.setText(" ");
+        drinkName.setText("");
+        drinkPerc.setText("");
 			}
 		});
 
