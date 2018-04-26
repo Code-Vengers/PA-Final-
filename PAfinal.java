@@ -23,8 +23,21 @@ public class PAfinal extends JPanel{
 
 
 
-  public PAfinal(){
+  public PAfinal()throws FileNotFoundException, IOException{
     HashMap<String,String> drinks = new HashMap<>();
+	
+	File text=new File("Fav.txt");
+	
+    ArrayList<String> favChoices = new ArrayList<String>();
+	
+	Scanner favDrinks=new Scanner(text);
+	while(favDrinks.hasNextLine()){
+		String drink=favDrinks.next();
+		System.out.println(drink);
+		drinks.put(drink, favDrinks.next());
+		favChoices.add(drink);
+	}
+
 
     JPanel content = this;
     content.setLayout(new BorderLayout(5,5));
@@ -38,15 +51,16 @@ public class PAfinal extends JPanel{
     JTextArea drinkName = new JTextArea("Add Drink Name Here:");
     JTextArea drinkPerc = new JTextArea("Add Drink's Alcohol Percent Here:");
     JButton save = new JButton("Save");
+	JButton get = new JButton("Get");
     top.add(drinkName);
     top.add(drinkPerc);
     top.add(save);
-    ArrayList<String> favChoices = new ArrayList<String>();
+	top.add(get);
     //String[] favChoices = new String[] {};
     String[] array = favChoices.toArray(new String[favChoices.size()]);
 
-    JComboBox<String> favList = new JComboBox(array);
      // add to the parent container (a JFrame):
+    JComboBox<String> favList = new JComboBox(array);
     top.add(favList);
      // get the selected item:
     String selectedFav = (String) favList.getSelectedItem();
@@ -111,6 +125,13 @@ public class PAfinal extends JPanel{
 
       String drink = drinkName.getText();
       String perc = drinkPerc.getText();
+	  try{
+		FileWriter record=new FileWriter(text, true);
+		record.write("\n"+drink+" "+perc);
+		System.out.println("Saved to File");
+		record.close();
+	  }catch(Exception IOException){
+	  }
       drinks.put(drink,perc);
       System.out.println("Saved");
 
@@ -119,6 +140,18 @@ public class PAfinal extends JPanel{
       System.out.println(favChoices.toString());
       drinkName.setText("Name");
       drinkPerc.setText("Alc Content");
+
+    }
+  });
+  
+  get.addActionListener(new ActionListener(){
+    public void actionPerformed(ActionEvent e){
+
+      drinkName.setText((String) favList.getSelectedItem());
+      drinkPerc.setText(drinks.get((String) favList.getSelectedItem()));
+      percent.setText(drinks.get((String) favList.getSelectedItem()));
+      System.out.println("Got");
+
 
     }
   });
@@ -143,7 +176,7 @@ public class PAfinal extends JPanel{
 
  }
 
-  private static void createAndShowGUI(){
+  private static void createAndShowGUI()throws FileNotFoundException, IOException{
       //Create and set up the window.
       JFrame frame = new JFrame("PAfinal");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,7 +190,7 @@ public class PAfinal extends JPanel{
       frame.pack();
       frame.setVisible(true);
       frame.pack();
-      frame.setSize(800,500);
+      frame.setSize(800,525);
       frame.setLocation(100,100);
 
   }
@@ -179,12 +212,15 @@ public class PAfinal extends JPanel{
  }
 
 
-public static void main(String[] args) {
+public static void main(String[] args) throws FileNotFoundException, IOException{
     //Schedule a job for the event-dispatching thread:
     //creating and showing this application's GUI.
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-            createAndShowGUI(); // basically creates the GUI and the frame apparently
+        public void run(){
+			try{
+				createAndShowGUI();
+			}catch (Exception FileNotFoundException){
+			} // basically creates the GUI and the frame apparently
         }
     });
    }
